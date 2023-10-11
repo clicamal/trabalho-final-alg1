@@ -16,11 +16,12 @@ typedef enum {
 
 int main()
 {
-    double PRODUCTS_PRICE[NUM_PRODUCTS];
+    double PRODUCTS_PRICE[NUM_PRODUCTS]; // Preços dos produtos.
 
-    int PRODUCTS_STOCK[NUM_PRODUCTS];
+    int PRODUCTS_STOCK[NUM_PRODUCTS]; // Estoque dos produtos.
 
-    const double PAYMENT_DISCOUNT[4] = { // Desconto de cada forma de pagamento.
+    // Desconto de cada forma de pagamento.
+    const double PAYMENT_DISCOUNT[4] = {
         0.10, // Dinheiro.
         0.05, // Cartão (débito ou crédito).
         0.12, // Pix.
@@ -65,6 +66,7 @@ int main()
         printf("[%d] - Perdoar débito de um cliente aleatório.\n", FORGV_DEBT);
         printf("[%d] - Sair.\n", EXIT_ACTION);
 
+        // Lê a ação escolhida pelo usuário.
         printf("Selecione uma opção: ");
         scanf("%d", &action);
 

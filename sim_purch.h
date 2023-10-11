@@ -39,13 +39,15 @@ void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* 
     printf("Simulando compra.\n");
 
     int
-            purchases[NUM_PRODUCTS], // Armazena as compras para subtrair do estoque.
-    selection_i = 0,
-            max_selection = 100;
+        purchases[NUM_PRODUCTS], // Armazena as compras para subtrair do estoque.
+        selection_i = 0, // Índice da seleção.
+        max_selection = 100; // Número máximo de seleções.
+
     double total_price = 0, discount = 0; // Preço total da compra.
     payment_code payment_code = 0; // Código da forma de pagamento escolhida pelo usuário.
     product_code prod_code = 0; // Código do produto escolhido pelo usuário.
 
+    // Inicializa o vetor de compras.
     purchases[0] = 0; // Pão.
     purchases[1] = 0; // Leite.
     purchases[2] = 0; // Café.
@@ -77,12 +79,14 @@ void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* 
         printf("[%d] - Carne.\n", MEAT);
         printf("[%d] - Finalizar compra.\n", EXIT_PRODUCT_SEL);
 
+        // Seleção do produto.
         printf("Selecione uma opção: ");
         scanf("%d", &temp_prod_code);
 
         if (temp_prod_code == EXIT_PRODUCT_SEL) break;
         else prod_code = temp_prod_code;
 
+        // Lê a quantidade do produto escolhido pelo usuário.
         printf("Quantidade: ");
         scanf("%d", &quantity);
 
@@ -120,9 +124,10 @@ void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* 
                 break;
             default:
                 printf("Opção inválida.\n");
-                break;
+                continue;
         }
 
+        // Adiciona o produto e a quantidade ao vetor de compras e calcula o preço total.
         purchases[temp_prod_code] += quantity;
         total_price += (PRODUCTS_PRICE[temp_prod_code] * quantity) * (1 - product_discount);
 
@@ -140,6 +145,7 @@ void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* 
         printf("[%d] - Crediário.\n", CREDIARY);
         printf("[%d] - Cancelar compra.\n", EXIT_PAYMENT_SEL);
 
+        // Lê a forma de pagamento escolhida pelo usuário.
         printf("Selecione uma opção: ");
         scanf("%d", &payment_code);
 
