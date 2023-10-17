@@ -8,4 +8,6 @@ add_executable(trabalho_final_alg1 main.c
         head.h
         search_debt.h
         register_client.h
+        search_stock.h
+        fill_stock.h
 )

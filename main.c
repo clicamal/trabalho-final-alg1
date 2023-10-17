@@ -2,6 +2,8 @@
 #include "sim_purch.h"
 #include "search_debt.h"
 #include "register_client.h"
+#include "fill_stock.h"
+#include "search_stock.h"
 
 // O objetivo do programa é simular um sistema de super-mercado.
 
@@ -88,10 +90,10 @@ int main()
                 search_debt((const float *) &CLIENTS_DEBT);
                 break;
             case FILL_STOCK:
-                printf("Reabastecer estoque.\n");
+                fill_stock(PRODUCTS_STOCK);
                 break;
             case SEARCH_STOCK:
-                printf("Pesquisar estoque.\n");
+                search_stock(PRODUCTS_STOCK);
                 break;
             case PAY_DEBT:
                 printf("Pagar débito de um cliente.\n");
