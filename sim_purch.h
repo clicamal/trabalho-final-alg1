@@ -5,6 +5,7 @@
 #ifndef TRABALHO_FINAL_ALG1_SIM_PURCH_H
 #define TRABALHO_FINAL_ALG1_SIM_PURCH_H
 #include <stdio.h>
+#include "head.h"
 
 #endif //TRABALHO_FINAL_ALG1_SIM_PURCH_H
 
@@ -34,14 +35,15 @@ typedef enum {
 
 const int NUM_PRODUCTS = 10; // Número de produtos.
 
-void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* PAYMENT_DISCOUNT)
+void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* PAYMENT_DISCOUNT, double* CLIENTS_DEBT)
 {
     printf("Simulando compra.\n");
 
     int
         purchases[NUM_PRODUCTS], // Armazena as compras para subtrair do estoque.
         selection_i = 0, // Índice da seleção.
-        max_selection = 100; // Número máximo de seleções.
+        max_selection = 100,
+        client_id = 0; // Número máximo de seleções.
 
     double total_price = 0, discount = 0; // Preço total da compra.
     payment_code payment_code = 0; // Código da forma de pagamento escolhida pelo usuário.
@@ -161,7 +163,26 @@ void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* 
                 discount = PAYMENT_DISCOUNT[PIX];
                 break;
             case CREDIARY:
+                // Lê o id do cliente.
+                printf("ID do cliente: ");
+                scanf("%d", &client_id);
+
+                // Verifica se o id do cliente é válido.
+                if (client_id < 0 || client_id >= NUM_CLIENTS) {
+                    printf("ID inválido.\n");
+                    break;
+                }
+
+                // Verifica se o cliente é válido.
+                if (CLIENTS_DEBT[client_id] == -1) {
+                    printf("Cliente não encontrado.\n");
+                    break;
+                }
+
                 discount = PAYMENT_DISCOUNT[CREDIARY];
+                CLIENTS_DEBT[client_id] += total_price;
+
+                printf("Dívida do cliente %d: R$ %.2f\n", client_id, CLIENTS_DEBT[client_id]);
                 break;
             case EXIT_PAYMENT_SEL:
                 printf("Compra cancelada.\n");
