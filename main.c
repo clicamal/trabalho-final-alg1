@@ -75,7 +75,7 @@ int main()
         printf("[%d] - Pesquisar débito de um cliente.\n", SEARCH_DEBT);
         printf("[%d] - Reabastecer estoque.\n", FILL_STOCK);
         printf("[%d] - Pesquisar estoque.\n", SEARCH_STOCK);
-        printf("[%d] - Pagar débito de um cliente aleatório.\n", PAY_DEBT);
+        printf("[%d] - Pagar débito de um cliente.\n", PAY_DEBT);
         printf("[%d] - Perdoar débito de um cliente aleatório.\n", FORGV_DEBT);
         printf("[%d] - Sair.\n", EXIT_ACTION);
 
