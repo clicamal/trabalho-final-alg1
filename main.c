@@ -30,7 +30,7 @@ int main()
     int PRODUCTS_STOCK[NUM_PRODUCTS]; // Estoque dos produtos.
 
     // Dívida dos clientes.
-    float CLIENTS_DEBT[NUM_CLIENTS];
+    double CLIENTS_DEBT[NUM_CLIENTS];
 
     // Desconto de cada forma de pagamento.
     const float PAYMENT_DISCOUNT[4] = {
@@ -87,13 +87,13 @@ int main()
         switch (action) {
             case SIM_PURCH:
                 sim_purch((const float *) &PRODUCTS_PRICE, (int *) &PRODUCTS_STOCK,
-                          (const float *) &PAYMENT_DISCOUNT, (float *) &CLIENTS_DEBT);
+                          (const float *) &PAYMENT_DISCOUNT, (double *) &CLIENTS_DEBT);
                 break;
             case REG_CLIENT:
-                register_client((float *) &CLIENTS_DEBT);
+                register_client((double *) &CLIENTS_DEBT);
                 break;
             case SEARCH_DEBT:
-                search_debt((const float *) &CLIENTS_DEBT);
+                search_debt((const double *) &CLIENTS_DEBT);
                 break;
             case FILL_STOCK:
                 fill_stock(PRODUCTS_STOCK);
@@ -105,7 +105,7 @@ int main()
                 pay_debt(CLIENTS_DEBT);
                 break;
             case FORGV_DEBT:
-                forgv_deb((float *) &CLIENTS_DEBT);
+                forgv_deb((double *) &CLIENTS_DEBT);
                 break;
             case EXIT_ACTION:
                 printf("Sair.\n");

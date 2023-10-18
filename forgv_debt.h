@@ -11,7 +11,7 @@
 #include "head.h"
 
 // Perdoar débito de um cliente aleatório.
-void forgv_deb(float *CLIENTS_DEBT) {
+void forgv_deb(double *CLIENTS_DEBT) {
     printf("Perdoando débito de um cliente aleatório.\n");
 
     int max_forgv_deb_i = 100; // Número de iterações máximas para perdoar a dívida de um cliente.

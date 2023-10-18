@@ -32,6 +32,6 @@ typedef enum {
 } payment_code;
 
 const int NUM_PRODUCTS = 10; // Número de produtos.
-const int NUM_CLIENTS = 100; // Número de clientes.
+const int NUM_CLIENTS = 10; // Número de clientes.
 
 #endif //TRABALHO_FINAL_ALG1_HEAD_H

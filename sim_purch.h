@@ -10,7 +10,7 @@
 #include "head.h"
 
 // Simular compra.
-void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PAYMENT_DISCOUNT, float* CLIENTS_DEBT)
+void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PAYMENT_DISCOUNT, double* CLIENTS_DEBT)
 {
     printf("Simulando compra.\n");
 

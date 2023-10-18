@@ -9,7 +9,7 @@
 #include "head.h"
 
 // Pagar débito de um cliente
-void pay_debt(float *CLIENTS_DEBT)
+void pay_debt(double *CLIENTS_DEBT)
 {
     printf("Pagando débito de um cliente.\n");
 

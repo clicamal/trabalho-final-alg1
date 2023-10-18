@@ -10,9 +10,9 @@
 #include <stdio.h>
 #include "head.h"
 
-void search_debt(const float *CLIENTS_DEBT)
+void search_debt(const double *CLIENTS_DEBT)
 {
-    float client_debt = 0; // Dívida do cliente.
+    double client_debt; // Dívida do cliente.
     int
         search_i = 0, // Índice da busca.
         max_search = 100, // Número máximo de buscas.
