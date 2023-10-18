@@ -10,4 +10,6 @@ add_executable(trabalho_final_alg1 main.c
         register_client.h
         search_stock.h
         fill_stock.h
+        forgv_debt.h
+        pay_debt.h
 )

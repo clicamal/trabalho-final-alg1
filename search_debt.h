@@ -44,4 +44,6 @@ void search_debt(const float *CLIENTS_DEBT)
         printf("Dívida do cliente %d: R$ %.2f\n", client_id, client_debt);
         break;
     }
+
+    printf("Operação finalizada.\n");
 }

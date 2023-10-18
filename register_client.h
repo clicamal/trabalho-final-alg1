@@ -10,7 +10,7 @@
 #endif //TRABALHO_FINAL_ALG1_REGISTER_CLIENT_H
 
 // Registra um cliente.
-void register_client(double *CLIENTS_DEBT)
+void register_client(float *CLIENTS_DEBT)
 {
     int client_id = 0; // ID do cliente.
 
@@ -26,4 +26,6 @@ void register_client(double *CLIENTS_DEBT)
 
     // Registra o cliente.
     CLIENTS_DEBT[client_id] = 0;
+
+    printf("Cliente registrado.\n");
 }

@@ -9,17 +9,16 @@
 #include "head.h"
 
 // Simular compra.
-void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* PAYMENT_DISCOUNT, double* CLIENTS_DEBT)
+void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PAYMENT_DISCOUNT, float* CLIENTS_DEBT)
 {
     printf("Simulando compra.\n");
 
     int
-            purchases[NUM_PRODUCTS], // Armazena as compras para subtrair do estoque.
-    selection_i = 0, // Índice da seleção.
-    max_selection = 100,
-            client_id = 0; // Número máximo de seleções.
+        purchases[NUM_PRODUCTS], // Armazena as compras para subtrair do estoque.
+        max_selection = 100,
+        client_id = 0; // Número máximo de seleções.
 
-    double total_price = 0, discount = 0; // Preço total da compra.
+    float total_price = 0, discount = 0; // Preço total da compra.
     payment_code payment_code = 0; // Código da forma de pagamento escolhida pelo usuário.
     product_code prod_code = 0; // Código do produto escolhido pelo usuário.
 
@@ -38,7 +37,7 @@ void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* 
     // Loop da seleção de produtos.
     for (int i = 0; i < max_selection; i++) {
         int quantity = 0; // Quantidade do produto escolhido pelo usuário.
-        double product_discount = 0; // Desconto do produto escolhido pelo usuário em função da quantidade.
+        float product_discount = 0; // Desconto do produto escolhido pelo usuário em função da quantidade.
         product_code temp_prod_code = 0; // Código do produto escolhido pelo usuário.
 
         // Menu de opções.
@@ -81,13 +80,13 @@ void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* 
         // Checa se o código do produto é válido e atribui o desconto com acordo com a quantidade.
         switch (temp_prod_code) {
             case BREAD:
-                if (quantity >= 10) product_discount = 0.10;
+                if (quantity >= 10) product_discount = (float) 0.10;
                 break;
             case MILK:
-                if (quantity >= 5) product_discount = 0.05;
+                if (quantity >= 5) product_discount = (float) 0.05;
                 break;
             case COFFEE:
-                if (quantity >= 3) product_discount = 0.03;
+                if (quantity >= 3) product_discount = (float) 0.03;
                 break;
             case RICE:
             case BEANS:
@@ -96,7 +95,7 @@ void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* 
             case OIL:
             case FLOUR:
             case MEAT:
-                if (quantity >= 2) product_discount = 0.02;
+                if (quantity >= 2) product_discount = (float) 0.02;
                 break;
             default:
                 printf("Opção inválida.\n");
@@ -105,7 +104,7 @@ void sim_purch(const double *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const double* 
 
         // Adiciona o produto e a quantidade ao vetor de compras e calcula o preço total.
         purchases[temp_prod_code] += quantity;
-        total_price += (PRODUCTS_PRICE[temp_prod_code] * quantity) * (1 - product_discount);
+        total_price += (PRODUCTS_PRICE[temp_prod_code] * (float) quantity) * (1 - product_discount);
     }
 
     if (total_price != 0) {

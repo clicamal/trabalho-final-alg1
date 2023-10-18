@@ -1,9 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "sim_purch.h"
 #include "search_debt.h"
 #include "register_client.h"
 #include "fill_stock.h"
 #include "search_stock.h"
+#include "pay_debt.h"
+#include "forgv_debt.h"
 
 // O objetivo do programa é simular um sistema de super-mercado.
 
@@ -21,37 +25,39 @@ typedef enum {
 
 int main()
 {
-    double PRODUCTS_PRICE[NUM_PRODUCTS]; // Preços dos produtos.
+    float PRODUCTS_PRICE[NUM_PRODUCTS]; // Preços dos produtos.
 
     int PRODUCTS_STOCK[NUM_PRODUCTS]; // Estoque dos produtos.
 
     // Dívida dos clientes.
-    double CLIENTS_DEBT[NUM_CLIENTS];
+    float CLIENTS_DEBT[NUM_CLIENTS];
+
+    // Desconto de cada forma de pagamento.
+    const float PAYMENT_DISCOUNT[4] = {
+            (float) 0.10, // Dinheiro.
+            (float) 0.05, // Cartão (débito ou crédito).
+            (float) 0.12, // Pix.
+            0 // Crediário.
+    };
+
+    srand(time(NULL)); // Inicializa o gerador de números aleatórios.
 
     // Inicializa o vetor de dívidas dos clientes.
     for (int i = 0; i < NUM_CLIENTS; i++) {
         CLIENTS_DEBT[i] = -1;
     }
 
-    // Desconto de cada forma de pagamento.
-    const double PAYMENT_DISCOUNT[4] = {
-        0.10, // Dinheiro.
-        0.05, // Cartão (débito ou crédito).
-        0.12, // Pix.
-        0 // Crediário.
-    };
-
     // Definindo os preços dos produtos.
-    PRODUCTS_PRICE[0] = 0.50; // Pão.
-    PRODUCTS_PRICE[1] = 3.50; // Leite.
-    PRODUCTS_PRICE[2] = 5.00; // Café.
-    PRODUCTS_PRICE[3] = 10.00; // Arroz.
-    PRODUCTS_PRICE[4] = 8.00; // Feijão.
-    PRODUCTS_PRICE[5] = 3.00; // Açúcar.
-    PRODUCTS_PRICE[6] = 2.00; // Sal.
-    PRODUCTS_PRICE[7] = 5.00; // Óleo.
-    PRODUCTS_PRICE[8] = 3.00; // Farinha.
-    PRODUCTS_PRICE[9] = 30.00; // Carne.
+    PRODUCTS_PRICE[0] = (float) 0.50; // Pão.
+    PRODUCTS_PRICE[1] = (float) 3.50; // Leite.
+    PRODUCTS_PRICE[2] = (float) 5.00; // Café.
+    PRODUCTS_PRICE[3] = (float) 10.00; // Arroz.
+    PRODUCTS_PRICE[4] = (float) 8.00; // Feijão.
+    PRODUCTS_PRICE[5] = (float) 3.00; // Açúcar.
+    PRODUCTS_PRICE[6] = (float) 2.00; // Sal.
+    PRODUCTS_PRICE[7] = (float) 5.00; // Óleo.
+    PRODUCTS_PRICE[8] = (float) 3.00; // Farinha.
+    PRODUCTS_PRICE[9] = (float) 30.00; // Carne.
 
     // Definindo os estoques dos produtos.
     for (int i = 0; i < NUM_PRODUCTS; i++) {
@@ -80,11 +86,11 @@ int main()
         // Executa a ação escolhida pelo usuário.
         switch (action) {
             case SIM_PURCH:
-                sim_purch((const double *) &PRODUCTS_PRICE, (int *) &PRODUCTS_STOCK,
-                          (const double *) &PAYMENT_DISCOUNT, (double *) &CLIENTS_DEBT);
+                sim_purch((const float *) &PRODUCTS_PRICE, (int *) &PRODUCTS_STOCK,
+                          (const float *) &PAYMENT_DISCOUNT, (float *) &CLIENTS_DEBT);
                 break;
             case REG_CLIENT:
-                register_client((double *) &CLIENTS_DEBT);
+                register_client((float *) &CLIENTS_DEBT);
                 break;
             case SEARCH_DEBT:
                 search_debt((const float *) &CLIENTS_DEBT);
@@ -96,10 +102,10 @@ int main()
                 search_stock(PRODUCTS_STOCK);
                 break;
             case PAY_DEBT:
-                printf("Pagar débito de um cliente.\n");
+                pay_debt(CLIENTS_DEBT);
                 break;
             case FORGV_DEBT:
-                printf("Perdoar débito de um cliente aleatório.\n");
+                forgv_deb((float *) &CLIENTS_DEBT);
                 break;
             case EXIT_ACTION:
                 printf("Sair.\n");
