@@ -20,7 +20,7 @@ void forgv_deb(float *CLIENTS_DEBT) {
 
     for (int forgv_deb_i = 0; forgv_deb_i < max_forgv_deb_i; forgv_deb_i++) {
         // Sorteia um ID de cliente.
-        client_id = rand() % NUM_CLIENTS;
+        client_id = rand() % NUM_CLIENTS - 1;
 
         // Perdoa a dívida do cliente.
         if (CLIENTS_DEBT[client_id] != -1) {
@@ -29,7 +29,7 @@ void forgv_deb(float *CLIENTS_DEBT) {
         }
     }
 
-    if (found_client) printf("Dívida do client %d perdoada.\n", client_id);
+    if (found_client) printf("Dívida do cliente %d perdoada.\n", client_id);
     else printf("Nenhum cliente encontrado.\n");
 
     printf("Fim da operação.\n");

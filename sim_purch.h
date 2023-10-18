@@ -6,6 +6,7 @@
 #define TRABALHO_FINAL_ALG1_SIM_PURCH_H
 
 #include <stdio.h>
+#include <stdbool.h>
 #include "head.h"
 
 // Simular compra.
@@ -15,12 +16,11 @@ void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PA
 
     int
         purchases[NUM_PRODUCTS], // Armazena as compras para subtrair do estoque.
-        max_selection = 100,
-        client_id = 0; // Número máximo de seleções.
+        max_selection_i = 100, // Número máximo de seleções.
+        client_id = 0; // ID do cliente.
 
     float total_price = 0, discount = 0; // Preço total da compra.
     payment_code payment_code = 0; // Código da forma de pagamento escolhida pelo usuário.
-    product_code prod_code = 0; // Código do produto escolhido pelo usuário.
 
     // Inicializa o vetor de compras.
     purchases[0] = 0; // Pão.
@@ -35,7 +35,7 @@ void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PA
     purchases[9] = 0; // Carne.
 
     // Loop da seleção de produtos.
-    for (int i = 0; i < max_selection; i++) {
+    for (int selection_i = 0; selection_i < max_selection_i; selection_i++) {
         int quantity = 0; // Quantidade do produto escolhido pelo usuário.
         float product_discount = 0; // Desconto do produto escolhido pelo usuário em função da quantidade.
         product_code temp_prod_code = 0; // Código do produto escolhido pelo usuário.
@@ -54,12 +54,12 @@ void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PA
         printf("[%d] - Carne.\n", MEAT);
         printf("[%d] - Finalizar compra.\n", EXIT_PRODUCT_SEL);
 
-        // Seleção do produto.
+        // Lê a opção escolhida pelo usuário.
         printf("Selecione uma opção: ");
         scanf("%d", &temp_prod_code);
 
+        // Verifica se o usuário deseja finalizar a compra.
         if (temp_prod_code == EXIT_PRODUCT_SEL) break;
-        else prod_code = temp_prod_code;
 
         // Lê a quantidade do produto escolhido pelo usuário.
         printf("Quantidade: ");
@@ -108,59 +108,80 @@ void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PA
     }
 
     if (total_price != 0) {
+        int
+            max_cliend_sel_i = 100, // Número máximo de seleções de cliente.
+            max_payment_meth_sel_i = 100; // Número máximo de seleções de forma de pagamento.
+        bool client_found = false; // Indica se o cliente foi encontrado.
         printf("Total: R$%.2f\n", total_price);
 
-        // Seleção da forma de pagamento.
-        printf("Escolha uma forma de pagamento:\n");
-        printf("[%d] - Dinheiro.\n", CASH);
-        printf("[%d] - Cartão (débito ou crédito).\n", CARD);
-        printf("[%d] - Pix.\n", PIX);
-        printf("[%d] - Crediário.\n", CREDIARY);
-        printf("[%d] - Cancelar compra.\n", EXIT_PAYMENT_SEL);
+        // Loop da seleção de cliente.
+        for (int payment_meth_sel_i = 0; payment_meth_sel_i < max_payment_meth_sel_i; payment_meth_sel_i++) {
+            // Seleção da forma de pagamento.
+            printf("Escolha uma forma de pagamento:\n");
+            printf("[%d] - Dinheiro.\n", CASH);
+            printf("[%d] - Cartão (débito ou crédito).\n", CARD);
+            printf("[%d] - Pix.\n", PIX);
+            printf("[%d] - Crediário.\n", CREDIARY);
+            printf("[%d] - Cancelar compra.\n", EXIT_PAYMENT_SEL);
 
-        // Lê a forma de pagamento escolhida pelo usuário.
-        printf("Selecione uma opção: ");
-        scanf("%d", &payment_code);
+            // Lê a forma de pagamento escolhida pelo usuário.
+            printf("Selecione uma opção: ");
+            scanf("%d", &payment_code);
 
-        // Verifica se a forma de pagamento é válida e aplica o  desconto de acordo.
-        switch (payment_code) {
-            case CASH:
-                discount = PAYMENT_DISCOUNT[CASH];
-                break;
-            case CARD:
-                discount = PAYMENT_DISCOUNT[CARD];
-                break;
-            case PIX:
-                discount = PAYMENT_DISCOUNT[PIX];
-                break;
-            case CREDIARY:
-                // Lê o id do cliente.
-                printf("ID do cliente: ");
-                scanf("%d", &client_id);
-
-                // Verifica se o id do cliente é válido.
-                if (client_id < 0 || client_id >= NUM_CLIENTS) {
-                    printf("ID inválido.\n");
+            // Verifica se a forma de pagamento é válida e aplica o  desconto de acordo.
+            switch (payment_code) {
+                case CASH:
+                    discount = PAYMENT_DISCOUNT[CASH];
                     break;
-                }
-
-                // Verifica se o cliente é válido.
-                if (CLIENTS_DEBT[client_id] == -1) {
-                    printf("Cliente não encontrado.\n");
+                case CARD:
+                    discount = PAYMENT_DISCOUNT[CARD];
                     break;
-                }
+                case PIX:
+                    discount = PAYMENT_DISCOUNT[PIX];
+                    break;
+                case CREDIARY:
+                    for (int client_sel_i = 0; client_sel_i < max_cliend_sel_i; client_sel_i++) {
+                        // Lê o id do cliente.
+                        printf("ID do cliente (-1 para sair): ");
+                        scanf("%d", &client_id);
 
-                discount = PAYMENT_DISCOUNT[CREDIARY];
-                CLIENTS_DEBT[client_id] += total_price;
+                        // Verifica se o usuário deseja sair.
+                        if (client_id == -1) break;
 
-                printf("Dívida do cliente %d: R$ %.2f\n", client_id, CLIENTS_DEBT[client_id]);
-                break;
-            case EXIT_PAYMENT_SEL:
-                printf("Compra cancelada.\n");
-                break;
-            default:
-                printf("Opção inválida.\n");
-                break;
+                        // Verifica se o id do cliente é válido.
+                        if (client_id < 0 || client_id >= NUM_CLIENTS) {
+                            printf("ID inválido.\n");
+                            continue;
+                        }
+
+                        // Verifica se o cliente é válido.
+                        if (CLIENTS_DEBT[client_id] == -1) {
+                            printf("Cliente não encontrado.\n");
+                            continue;
+                        }
+
+                        client_found = true;
+                        break;
+                    }
+
+                    if (!client_found) {
+                        continue;
+                    }
+
+                    discount = PAYMENT_DISCOUNT[CREDIARY];
+                    CLIENTS_DEBT[client_id] += total_price;
+
+                    printf("Dívida do cliente %d: R$ %.2f\n", client_id, CLIENTS_DEBT[client_id]);
+                    break;
+                case EXIT_PAYMENT_SEL:
+                    printf("Compra cancelada.\n");
+                    break;
+                default:
+                    printf("Opção inválida.\n");
+                    continue;
+            }
+
+            if (client_found) break;
         }
 
         if (payment_code != EXIT_PAYMENT_SEL) {
@@ -168,8 +189,9 @@ void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PA
 
             printf("Total: R$%.2f\n", total_price);
 
-            // Subtrai itens do estoque.
-            PRODUCTS_STOCK[prod_code] -= purchases[prod_code];
+            for (int i = 0; i < NUM_PRODUCTS; i++) {
+                PRODUCTS_STOCK[i] -= purchases[i];
+            }
 
             getchar();
 
