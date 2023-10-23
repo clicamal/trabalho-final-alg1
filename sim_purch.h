@@ -112,6 +112,8 @@ void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PA
             max_cliend_sel_i = 100, // Número máximo de seleções de cliente.
             max_payment_meth_sel_i = 100; // Número máximo de seleções de forma de pagamento.
         bool client_found = false; // Indica se o cliente foi encontrado.
+        bool purchase_canceled = false;
+
         printf("Total: R$%.2f\n", total_price);
 
         // Loop da seleção de cliente.
@@ -175,13 +177,14 @@ void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PA
                     break;
                 case EXIT_PAYMENT_SEL:
                     printf("Compra cancelada.\n");
+                    purchase_canceled = true;
                     break;
                 default:
                     printf("Opção inválida.\n");
                     continue;
             }
 
-            if (client_found) break;
+            if (client_found || purchase_canceled) break;
         }
 
         if (payment_code != EXIT_PAYMENT_SEL) {
@@ -196,7 +199,7 @@ void sim_purch(const float *PRODUCTS_PRICE, int* PRODUCTS_STOCK, const float* PA
             getchar();
 
             printf("Compra finalizada.\n");
-        } else printf("Compra cancelada.\n");
+        }
     }
 
     else printf("Compra cancelada.\n");
