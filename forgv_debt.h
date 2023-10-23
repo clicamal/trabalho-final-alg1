@@ -20,12 +20,13 @@ void forgv_deb(double *CLIENTS_DEBT) {
 
     for (int forgv_deb_i = 0; forgv_deb_i < max_forgv_deb_i; forgv_deb_i++) {
         // Sorteia um ID de cliente.
-        client_id = rand() % NUM_CLIENTS - 1;
+        client_id = rand() % NUM_CLIENTS;
 
         // Perdoa a dívida do cliente.
         if (CLIENTS_DEBT[client_id] != -1) {
             CLIENTS_DEBT[client_id] = 0;
             found_client = true;
+            break;
         }
     }
 
